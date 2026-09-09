@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-i_=^2%5qh+1tyr4xac7fc=04((9-33z2%0u&%6k*f0z&y8#cou
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["ai-whatsapp-followup-system-g0im.onrender.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
