@@ -191,7 +191,7 @@ SIMPLE_JWT = {
     "SIGNING_KEY": SECRET_KEY,
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
-CORS_ALLOWED_ORIGINS = [
+_DEFAULT_CORS_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:5174",
@@ -199,7 +199,17 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5175",
     "http://127.0.0.1:5175",
     "https://ai-whatsapp-followup-system.vercel.app",
+    "https://ai-whatsapp-followup-system-cy72.vercel.app",
 ]
+
+_env_cors_origins = [
+    origin.strip().rstrip("/")
+    for origin in os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+    if origin.strip()
+]
+CORS_ALLOWED_ORIGINS = _env_cors_origins or list(_DEFAULT_CORS_ORIGINS)
+
+CORS_ALLOW_ALL_ORIGINS = os.getenv("CORS_ALLOW_ALL_ORIGINS", "False").lower() in ["true", "1"]
 
 LOGGING = {
     "version": 1,
