@@ -1,0 +1,804 @@
+/* =========================================================
+   FOLLOW-UPS PAGE
+   ========================================================= */
+
+.fu-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.fu-main {
+  flex: 1;
+  min-width: 0;
+  width: calc(100% - 250px);
+  padding: 0 40px 60px;
+  box-sizing: border-box;
+}
+
+.fu-content {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 30px;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.fu-page-header {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.fu-title-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.fu-title-area h1 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.fu-title-area p {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   BUTTON BASE
+   ========================================================= */
+
+.fu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  height: 42px;
+  padding: 0 18px;
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.fu-btn:hover {
+  transform: translateY(-1px);
+}
+
+.fu-btn:active {
+  transform: translateY(0);
+}
+
+.fu-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.fu-btn:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.18);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.fu-btn-primary {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.18);
+}
+
+.fu-btn-primary:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  box-shadow: 0 5px 12px rgba(37, 99, 235, 0.22);
+}
+
+/* =========================================================
+   SECONDARY BUTTON
+   ========================================================= */
+
+.fu-btn-secondary {
+  background: #ffffff;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.fu-btn-secondary:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+/* =========================================================
+   WARNING BUTTON
+   ========================================================= */
+
+.fu-btn-warning {
+  background: #f59e0b;
+  color: #ffffff;
+  border-color: #f59e0b;
+}
+
+.fu-btn-warning:hover {
+  background: #d97706;
+  border-color: #d97706;
+}
+
+/* =========================================================
+   DANGER BUTTON
+   ========================================================= */
+
+.fu-btn-danger {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+}
+
+.fu-btn-danger:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+/* =========================================================
+   SUCCESS BUTTON
+   ========================================================= */
+
+.fu-btn-success {
+  background: #16a34a;
+  color: #ffffff;
+  border-color: #16a34a;
+}
+
+.fu-btn-success:hover {
+  background: #15803d;
+  border-color: #15803d;
+}
+
+/* =========================================================
+   ADD FOLLOW-UP BUTTON
+   ========================================================= */
+
+.fu-add-btn {
+  min-width: 150px;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.fu-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  width: 100%;
+  margin-bottom: 22px;
+  padding: 13px 16px;
+
+  background: #fef2f2;
+  color: #b91c1c;
+
+  border: 1px solid #fecaca;
+  border-radius: 9px;
+
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.fu-error-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+  padding: 0;
+
+  border: none;
+  border-radius: 6px;
+
+  background: transparent;
+  color: #b91c1c;
+
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.fu-error-close:hover {
+  background: #fee2e2;
+}
+
+/* =========================================================
+   FORM CARD
+   ========================================================= */
+
+.fu-form-card {
+  width: 100%;
+  margin-bottom: 28px;
+  padding: 30px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   FORM HEADER
+   ========================================================= */
+
+.fu-form-header {
+  margin-bottom: 28px;
+}
+
+.fu-form-header h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.fu-form-header p {
+  max-width: 700px;
+  margin: 7px 0 0;
+
+  color: #64748b;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   FORM GRID
+   ========================================================= */
+
+.fu-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 24px;
+}
+
+/* =========================================================
+   FORM GROUP
+   ========================================================= */
+
+.fu-form-group {
+  min-width: 0;
+}
+
+.fu-form-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #334155;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.fu-form-group input,
+.fu-form-group select {
+  display: block;
+
+  width: 100%;
+  height: 44px;
+
+  padding: 0 13px;
+
+  background: #ffffff;
+  color: #0f172a;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  box-sizing: border-box;
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.fu-form-group input:hover,
+.fu-form-group select:hover {
+  border-color: #94a3b8;
+}
+
+.fu-form-group input:focus,
+.fu-form-group select:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.fu-form-group small {
+  display: block;
+
+  margin-top: 7px;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   FORM ACTIONS
+   ========================================================= */
+
+.fu-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+
+  width: 100%;
+  margin-top: 28px;
+  padding-top: 22px;
+
+  border-top: 1px solid #eef2f7;
+
+  box-sizing: border-box;
+}
+
+.fu-form-actions .fu-btn {
+  flex-shrink: 0;
+}
+
+.fu-form-actions .fu-btn-secondary {
+  min-width: 110px;
+}
+
+.fu-schedule-btn {
+  min-width: 190px;
+}
+
+/* =========================================================
+   TABLE CARD
+   ========================================================= */
+
+.fu-table-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.fu-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 22px 24px;
+
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.fu-table-header h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.fu-table-header p {
+  margin: 6px 0 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+.fu-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.fu-table-wrapper table {
+  width: 100%;
+  min-width: 850px;
+
+  border-collapse: collapse;
+
+  background: #ffffff;
+}
+
+.fu-table-wrapper th {
+  padding: 14px 18px;
+
+  background: #f8fafc;
+
+  border-bottom: 1px solid #e2e8f0;
+
+  color: #475569;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-align: left;
+  text-transform: uppercase;
+
+  letter-spacing: 0.04em;
+
+  white-space: nowrap;
+}
+
+.fu-table-wrapper td {
+  padding: 16px 18px;
+
+  border-bottom: 1px solid #eef2f7;
+
+  color: #334155;
+
+  font-size: 14px;
+
+  vertical-align: middle;
+
+  white-space: nowrap;
+}
+
+.fu-table-wrapper tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.fu-table-wrapper tbody tr:hover {
+  background: #f8fafc;
+}
+
+.fu-table-wrapper tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================================================
+   ID
+   ========================================================= */
+
+.fu-id {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 38px;
+  height: 28px;
+
+  padding: 0 8px;
+
+  background: #eff6ff;
+  color: #2563eb;
+
+  border-radius: 6px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   CUSTOMER
+   ========================================================= */
+
+.fu-customer {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.fu-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 6px 10px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: capitalize;
+}
+
+.fu-status-dot {
+  width: 7px;
+  height: 7px;
+
+  flex: 0 0 7px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+}
+
+.fu-status-active {
+  color: #15803d;
+  background: #dcfce7;
+}
+
+.fu-status-paused {
+  color: #b45309;
+  background: #fef3c7;
+}
+
+.fu-status-stopped {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
+/* =========================================================
+   SENT
+   ========================================================= */
+
+.fu-table-wrapper td strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.fu-total {
+  margin-left: 3px;
+
+  color: #94a3b8;
+
+  font-weight: 500;
+}
+
+/* =========================================================
+   NEXT FOLLOW-UP
+   ========================================================= */
+
+.fu-next {
+  color: #475569;
+  font-size: 13px;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.fu-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  white-space: nowrap;
+}
+
+.fu-small-btn {
+  min-width: 82px;
+  height: 34px;
+
+  padding: 0 12px;
+
+  border-radius: 7px;
+
+  font-size: 12px;
+}
+
+.fu-no-actions {
+  color: #94a3b8;
+
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.fu-empty {
+  padding: 70px 24px;
+
+  text-align: center;
+}
+
+.fu-empty-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 58px;
+  height: 58px;
+
+  margin: 0 auto 16px;
+
+  background: #eff6ff;
+
+  border-radius: 14px;
+
+  font-size: 26px;
+}
+
+.fu-empty h3 {
+  margin: 0 0 8px;
+
+  color: #1e293b;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.fu-empty p {
+  max-width: 430px;
+
+  margin: 0 auto 22px;
+
+  color: #64748b;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+  .fu-main {
+    width: calc(100% - 250px);
+    padding: 0 28px 50px;
+  }
+
+  .fu-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .fu-main {
+    width: 100%;
+    padding: 0 16px 40px;
+  }
+
+  .fu-content {
+    padding-top: 22px;
+  }
+
+  .fu-page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fu-title-area h1 {
+    font-size: 28px;
+  }
+
+  .fu-add-btn {
+    width: 100%;
+  }
+
+  .fu-form-card {
+    padding: 22px;
+  }
+
+  .fu-form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .fu-form-actions .fu-btn {
+    width: 100%;
+  }
+
+  .fu-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fu-small-btn {
+    width: 100%;
+  }
+
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .fu-main {
+    padding: 0 12px 30px;
+  }
+
+  .fu-title-area h1 {
+    font-size: 25px;
+  }
+
+  .fu-form-card {
+    padding: 18px;
+    border-radius: 10px;
+  }
+
+  .fu-table-card {
+    border-radius: 10px;
+  }
+
+  .fu-table-header {
+    padding: 18px;
+  }
+
+  .fu-table-header h2 {
+    font-size: 17px;
+  }
+
+}

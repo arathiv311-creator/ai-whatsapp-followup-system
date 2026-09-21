@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { apiRequest } from "../api";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
+import "./Customers.css";
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
@@ -40,7 +41,6 @@ function Customers() {
       [name]: value,
     });
 
-    // Remove field error while typing
     setErrors({
       ...errors,
       [name]: "",
@@ -68,7 +68,8 @@ function Customers() {
       form.phone.trim().length < 10 ||
       form.phone.trim().length > 15
     ) {
-      newErrors.phone = "Phone number must be between 10 and 15 digits.";
+      newErrors.phone =
+        "Phone number must be between 10 and 15 digits.";
     }
 
     // Email
@@ -146,30 +147,46 @@ function Customers() {
   }
 
   return (
-    <div className="app-layout">
+    <div className="customers-page">
       <Sidebar />
 
-      <main className="main-content">
-        <Navbar title="Customers" />
+      <main className="customers-main">
+        <Navbar />
 
-        <section className="content">
+        <section className="customers-content">
 
-          {/* Add Customer */}
-          <div className="form-card">
-            <h2>Add Customer</h2>
+          {/* PAGE TITLE */}
+          <div className="customers-title">
+            <h1>Customers</h1>
+            <p>Manage your customers and their information.</p>
+          </div>
+
+          {/* ADD CUSTOMER FORM */}
+          <div className="customer-form-card">
+
+            <div className="customer-form-header">
+              <h2>Add Customer</h2>
+              <p>
+                Enter customer details to add a new customer.
+              </p>
+            </div>
 
             {apiError && (
-              <div className="error">
+              <div className="customer-error">
                 {apiError}
               </div>
             )}
 
             <form onSubmit={handleSubmit}>
 
-              <div className="form-group">
-                <label>Name *</label>
+              {/* NAME */}
+              <div className="customer-form-group">
+                <label htmlFor="name">
+                  Name <span>*</span>
+                </label>
 
                 <input
+                  id="name"
                   type="text"
                   name="name"
                   value={form.name}
@@ -178,16 +195,20 @@ function Customers() {
                 />
 
                 {errors.name && (
-                  <small className="field-error">
+                  <small className="customer-field-error">
                     {errors.name}
                   </small>
                 )}
               </div>
 
-              <div className="form-group">
-                <label>Phone *</label>
+              {/* PHONE */}
+              <div className="customer-form-group">
+                <label htmlFor="phone">
+                  Phone <span>*</span>
+                </label>
 
                 <input
+                  id="phone"
                   type="text"
                   name="phone"
                   value={form.phone}
@@ -196,16 +217,20 @@ function Customers() {
                 />
 
                 {errors.phone && (
-                  <small className="field-error">
+                  <small className="customer-field-error">
                     {errors.phone}
                   </small>
                 )}
               </div>
 
-              <div className="form-group">
-                <label>Email</label>
+              {/* EMAIL */}
+              <div className="customer-form-group">
+                <label htmlFor="email">
+                  Email
+                </label>
 
                 <input
+                  id="email"
                   type="email"
                   name="email"
                   value={form.email}
@@ -214,16 +239,20 @@ function Customers() {
                 />
 
                 {errors.email && (
-                  <small className="field-error">
+                  <small className="customer-field-error">
                     {errors.email}
                   </small>
                 )}
               </div>
 
-              <div className="form-group">
-                <label>Company</label>
+              {/* COMPANY */}
+              <div className="customer-form-group">
+                <label htmlFor="company">
+                  Company
+                </label>
 
                 <input
+                  id="company"
                   type="text"
                   name="company"
                   value={form.company}
@@ -232,10 +261,14 @@ function Customers() {
                 />
               </div>
 
-              <div className="form-group">
-                <label>Notes</label>
+              {/* NOTES */}
+              <div className="customer-form-group">
+                <label htmlFor="notes">
+                  Notes
+                </label>
 
                 <textarea
+                  id="notes"
                   name="notes"
                   value={form.notes}
                   onChange={handleChange}
@@ -244,10 +277,14 @@ function Customers() {
                 />
               </div>
 
-              <div className="form-group">
-                <label>Status</label>
+              {/* STATUS */}
+              <div className="customer-form-group">
+                <label htmlFor="status">
+                  Status
+                </label>
 
                 <select
+                  id="status"
                   name="status"
                   value={form.status}
                   onChange={handleChange}
@@ -259,24 +296,40 @@ function Customers() {
                 </select>
               </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-              >
-                {loading ? "Adding..." : "Add Customer"}
-              </button>
+              {/* SUBMIT */}
+              <div className="customer-submit-area">
+                <button
+                  type="submit"
+                  className="customer-add-btn"
+                  disabled={loading}
+                >
+                  {loading ? "Adding..." : "Add Customer"}
+                </button>
+              </div>
 
             </form>
           </div>
 
-          {/* Customer List */}
-          <div className="table-card">
-            <h2>Customer List</h2>
+          {/* CUSTOMER LIST */}
+          <div className="customer-list-card">
+
+            <div className="customer-list-header">
+              <div>
+                <h2>Customer List</h2>
+
+                <p>
+                  {customers.length} customer
+                  {customers.length !== 1 ? "s" : ""} found
+                </p>
+              </div>
+            </div>
 
             {customers.length === 0 ? (
-              <p>No customers found.</p>
+              <div className="customer-empty">
+                <p>No customers found.</p>
+              </div>
             ) : (
-              <div className="table-wrapper">
+              <div className="customer-table-wrapper">
                 <table>
                   <thead>
                     <tr>
@@ -293,16 +346,41 @@ function Customers() {
                   <tbody>
                     {customers.map((customer) => (
                       <tr key={customer.id}>
-                        <td>{customer.id}</td>
-                        <td>{customer.name}</td>
-                        <td>{customer.phone}</td>
-                        <td>{customer.email || "-"}</td>
-                        <td>{customer.company || "-"}</td>
-                        <td>{customer.status}</td>
+
+                        <td>
+                          <span className="customer-id">
+                            #{customer.id}
+                          </span>
+                        </td>
+
+                        <td>
+                          <strong>{customer.name}</strong>
+                        </td>
+
+                        <td>
+                          {customer.phone}
+                        </td>
+
+                        <td>
+                          {customer.email || "-"}
+                        </td>
+
+                        <td>
+                          {customer.company || "-"}
+                        </td>
+
+                        <td>
+                          <span
+                            className={`customer-status customer-status-${customer.status}`}
+                          >
+                            {customer.status}
+                          </span>
+                        </td>
 
                         <td>
                           <button
-                            className="delete-btn"
+                            type="button"
+                            className="customer-delete-btn"
                             onClick={() =>
                               handleDelete(customer.id)
                             }
@@ -310,12 +388,14 @@ function Customers() {
                             Delete
                           </button>
                         </td>
+
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             )}
+
           </div>
 
         </section>

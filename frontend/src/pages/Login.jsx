@@ -18,7 +18,7 @@ function Login() {
 
     try {
       const response = await fetch(
-        "https://ai-whatsapp-followup-system-g0im.onrender.com/api/auth/login/",
+        "http://127.0.0.1:8000/api/auth/login/",
         {
           method: "POST",
           headers: {

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Customer(models.Model):
@@ -8,6 +9,12 @@ class Customer(models.Model):
         ("replied", "Replied"),
         ("completed", "Completed"),
     ]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="customers"
+)
 
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20)

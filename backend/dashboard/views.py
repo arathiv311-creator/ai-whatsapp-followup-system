@@ -11,27 +11,44 @@ class DashboardStatsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        customers = Customer.objects.filter(
+            user=request.user
+        )
+
+        followups = FollowUp.objects.filter(
+            customer__user=request.user
+        )
+
+        messages = Message.objects.filter(
+            customer__user=request.user
+        )
+
         return Response({
-            "total_customers": Customer.objects.count(),
-            "active_customers": Customer.objects.filter(
+            "total_customers": customers.count(),
+
+            "active_customers": customers.filter(
                 status="active"
             ).count(),
-            "replied_customers": Customer.objects.filter(
+
+            "replied_customers": customers.filter(
                 status="replied"
             ).count(),
 
-            "total_followups": FollowUp.objects.count(),
-            "active_followups": FollowUp.objects.filter(
+            "total_followups": followups.count(),
+
+            "active_followups": followups.filter(
                 status="active"
             ).count(),
-            "completed_followups": FollowUp.objects.filter(
+
+            "completed_followups": followups.filter(
                 status="completed"
             ).count(),
 
-            "messages_sent": Message.objects.filter(
+            "messages_sent": messages.filter(
                 direction="outgoing"
             ).count(),
-            "messages_received": Message.objects.filter(
+
+            "messages_received": messages.filter(
                 direction="incoming"
             ).count(),
         })
