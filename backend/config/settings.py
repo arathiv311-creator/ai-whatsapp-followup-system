@@ -93,28 +93,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 import dj_database_url
 
 
-def get_database_config():
-    db_url = os.getenv("DATABASE_URL")
-    if db_url:
-        config = dj_database_url.config(default=db_url)
-        options = dict(config.get("OPTIONS") or {})
-        options.setdefault("sslmode", "require")
-        config["OPTIONS"] = options
-        return {"default": config}
-    return {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DB_NAME"),
-            "USER": os.getenv("DB_USER"),
-            "PASSWORD": os.getenv("DB_PASSWORD"),
-            "HOST": os.getenv("DB_HOST"),
-            "PORT": os.getenv("DB_PORT"),
-        }
-    }
+def get_default_database_url():
+    if os.getenv("DB_NAME"):
+        return (
+            f"postgres://{os.getenv('DB_USER', '')}:{os.getenv('DB_PASSWORD', '')}"
+            f"@{os.getenv('DB_HOST', 'localhost')}:{os.getenv('DB_PORT', '5432')}"
+            f"/{os.getenv('DB_NAME')}"
+        )
+    return "sqlite:///" + str(BASE_DIR / "db.sqlite3")
 
 
-DATABASES = get_database_config()
-CONN_MAX_AGE = 60
+DATABASES = {
+    "default": dj_database_url.config(
+        default=get_default_database_url(),
+        conn_max_age=600,
+        ssl_require=bool(os.getenv("DATABASE_URL")),
+    )
+}
+CONN_MAX_AGE = 600
 CONN_HEALTH_CHECKS = True
 
 
