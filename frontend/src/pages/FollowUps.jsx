@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import AIMessageComposer from "../components/AIMessageComposer";
 import { apiRequest } from "../api";
 import "./FollowUps.css";
 
@@ -8,6 +9,10 @@ function FollowUps() {
   const [customers, setCustomers] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState("");
+
+  const [showAi, setShowAi] = useState(false);
+  const [aiCustomer, setAiCustomer] = useState(null);
+  const [aiFollowup, setAiFollowup] = useState(null);
 
   const [customer, setCustomer] = useState("");
   const [firstMessageAt, setFirstMessageAt] = useState("");
@@ -101,6 +106,47 @@ function FollowUps() {
     }
   }
 
+  function openComposer(item) {
+    setAiCustomer(item.customer);
+    setAiFollowup(item.id);
+    setShowAi(true);
+  }
+
+  function closeComposer() {
+    setShowAi(false);
+    setAiCustomer(null);
+    setAiFollowup(null);
+  }
+
+  function getCustomerName(item) {
+    if (item.customer_name) return item.customer_name;
+
+    const match = customers.find((c) => c.id === item.customer);
+
+    return match ? match.name : `Customer ${item.customer}`;
+  }
+
+  async function handleDelete(id) {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this follow-up schedule? " +
+        "Linked messages will be kept."
+    );
+
+    if (!confirmed) return;
+
+    setError("");
+
+    try {
+      await apiRequest(`/followups/${id}/`, {
+        method: "DELETE",
+      });
+
+      await loadFollowups();
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
   function getStatusClass(status) {
     switch (status) {
       case "active":
@@ -147,6 +193,25 @@ function FollowUps() {
               >
                 ×
               </button>
+            </div>
+          )}
+
+          {/* AI Message composer */}
+          {showAi && (
+            <div className="fu-composer-wrap">
+              <button
+                type="button"
+                className="fu-back-btn fu-composer-close"
+                onClick={closeComposer}
+              >
+                × Close
+              </button>
+
+              <AIMessageComposer
+                initialCustomer={aiCustomer}
+                initialFollowup={aiFollowup}
+                onSent={loadFollowups}
+              />
             </div>
           )}
 
@@ -373,7 +438,7 @@ function FollowUps() {
 
                         <td>
                           <span className="fu-customer">
-                            Customer {item.customer}
+                            {getCustomerName(item)}
                           </span>
                         </td>
 
@@ -406,6 +471,14 @@ function FollowUps() {
 
                           <div className="fu-actions">
 
+                            <button
+                              type="button"
+                              className="fu-btn fu-btn-ai fu-small-btn"
+                              onClick={() => openComposer(item)}
+                            >
+                              ✉ AI Message
+                            </button>
+
                             {item.status === "active" && (
                               <>
                                 <button
@@ -430,7 +503,8 @@ function FollowUps() {
                               </>
                             )}
 
-                            {item.status === "paused" && (
+                            {(item.status === "paused" ||
+                              item.status === "stopped") && (
                               <button
                                 type="button"
                                 className="fu-btn fu-btn-success fu-small-btn"
@@ -438,15 +512,17 @@ function FollowUps() {
                                   action(item.id, "resume")
                                 }
                               >
-                                ▶ Resume
+                                ▶ Start
                               </button>
                             )}
 
-                            {item.status === "stopped" && (
-                              <span className="fu-no-actions">
-                                No actions
-                              </span>
-                            )}
+                            <button
+                              type="button"
+                              className="fu-btn fu-btn-danger fu-small-btn"
+                              onClick={() => handleDelete(item.id)}
+                            >
+                              🗑 Delete
+                            </button>
 
                           </div>
 

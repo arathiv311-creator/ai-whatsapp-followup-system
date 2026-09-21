@@ -4,10 +4,17 @@ from .views import (
     MessageListView,
     CustomerMessageListView,
     SendMessageView,
+    GenerateMessageView,
 )
 
 
 urlpatterns = [
+    path(
+        "generate/",
+        GenerateMessageView.as_view(),
+        name="generate-message"
+    ),
+
     path(
         "send/",
         SendMessageView.as_view(),

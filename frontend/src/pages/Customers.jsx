@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../api";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import "./Customers.css";
 
 function Customers() {
+  const navigate = useNavigate();
+
   const [customers, setCustomers] = useState([]);
 
   const [form, setForm] = useState({
@@ -15,6 +18,8 @@ function Customers() {
     notes: "",
     status: "active",
   });
+
+  const [editingId, setEditingId] = useState(null);
 
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
@@ -97,17 +102,28 @@ function Customers() {
     setLoading(true);
 
     try {
-      await apiRequest("/customers/", {
-        method: "POST",
-        body: JSON.stringify({
-          ...form,
-          name: form.name.trim(),
-          phone: form.phone.trim(),
-          email: form.email.trim(),
-          company: form.company.trim(),
-          notes: form.notes.trim(),
-        }),
+      const payload = JSON.stringify({
+        ...form,
+        name: form.name.trim(),
+        phone: form.phone.trim(),
+        email: form.email.trim(),
+        company: form.company.trim(),
+        notes: form.notes.trim(),
       });
+
+      if (editingId) {
+        await apiRequest(`/customers/${editingId}/`, {
+          method: "PUT",
+          body: payload,
+        });
+
+        setEditingId(null);
+      } else {
+        await apiRequest("/customers/", {
+          method: "POST",
+          body: payload,
+        });
+      }
 
       setForm({
         name: "",
@@ -126,6 +142,40 @@ function Customers() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function startEdit(customer) {
+    setEditingId(customer.id);
+    setForm({
+      name: customer.name,
+      phone: customer.phone,
+      email: customer.email || "",
+      company: customer.company || "",
+      notes: customer.notes || "",
+      status: customer.status,
+    });
+    setErrors({});
+    setApiError("");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setForm({
+      name: "",
+      phone: "",
+      email: "",
+      company: "",
+      notes: "",
+      status: "active",
+    });
+    setErrors({});
+    setApiError("");
+  }
+
+  function sendAiMessage(customer) {
+    navigate(`/messages?customer=${customer.id}`);
   }
 
   async function handleDelete(id) {
@@ -165,9 +215,13 @@ function Customers() {
           <div className="customer-form-card">
 
             <div className="customer-form-header">
-              <h2>Add Customer</h2>
+              <h2>
+                {editingId ? "Edit Customer" : "Add Customer"}
+              </h2>
               <p>
-                Enter customer details to add a new customer.
+                {editingId
+                  ? "Update the customer details below."
+                  : "Enter customer details to add a new customer."}
               </p>
             </div>
 
@@ -298,12 +352,26 @@ function Customers() {
 
               {/* SUBMIT */}
               <div className="customer-submit-area">
+                {editingId && (
+                  <button
+                    type="button"
+                    className="customer-cancel-btn"
+                    onClick={cancelEdit}
+                  >
+                    Cancel Edit
+                  </button>
+                )}
+
                 <button
                   type="submit"
                   className="customer-add-btn"
                   disabled={loading}
                 >
-                  {loading ? "Adding..." : "Add Customer"}
+                  {loading
+                    ? "Saving..."
+                    : editingId
+                      ? "Save Changes"
+                      : "Add Customer"}
                 </button>
               </div>
 
@@ -378,15 +446,33 @@ function Customers() {
                         </td>
 
                         <td>
-                          <button
-                            type="button"
-                            className="customer-delete-btn"
-                            onClick={() =>
-                              handleDelete(customer.id)
-                            }
-                          >
-                            Delete
-                          </button>
+                          <div className="customer-actions">
+                            <button
+                              type="button"
+                              className="customer-edit-btn"
+                              onClick={() => startEdit(customer)}
+                            >
+                              ✏ Edit
+                            </button>
+
+                            <button
+                              type="button"
+                              className="customer-ai-btn"
+                              onClick={() => sendAiMessage(customer)}
+                            >
+                              ✉ AI Message
+                            </button>
+
+                            <button
+                              type="button"
+                              className="customer-delete-btn"
+                              onClick={() =>
+                                handleDelete(customer.id)
+                              }
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </td>
 
                       </tr>

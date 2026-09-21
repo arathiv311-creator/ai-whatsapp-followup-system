@@ -619,6 +619,47 @@ button {
   color: #b91c1c;
 }
 
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: capitalize;
+}
+
+.status-pill-success {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-pill-danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.status-pill-info {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-pill-default {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.status-detail {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #b91c1c;
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
 /* =========================================================
    SENT COUNT

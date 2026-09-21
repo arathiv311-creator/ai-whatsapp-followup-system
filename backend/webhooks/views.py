@@ -29,6 +29,7 @@ class WhatsAppWebhookView(APIView):
             )
 
         Message.objects.create(
+            user=customer.user,
             customer=customer,
             direction="incoming",
             message_text=message_text,

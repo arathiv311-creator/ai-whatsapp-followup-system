@@ -3,6 +3,10 @@ from .models import FollowUp
 
 
 class FollowUpSerializer(serializers.ModelSerializer):
+    customer_name = serializers.CharField(
+        source="customer.name",
+        read_only=True,
+    )
 
     class Meta:
         model = FollowUp

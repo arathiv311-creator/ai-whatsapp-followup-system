@@ -23,7 +23,7 @@ load_dotenv(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY") or "django-insecure-dev-only-key-do-not-use-in-production"
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
@@ -32,6 +32,9 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
 ]
+_extra_hosts = os.getenv("ALLOWED_HOSTS")
+if _extra_hosts:
+    ALLOWED_HOSTS += [h.strip() for h in _extra_hosts.split(",") if h.strip()]
 
 
 # Application definition
@@ -57,6 +60,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -88,16 +92,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 import dj_database_url
 
-if os.getenv("DATABASE_URL"):
-    import dj_database_url
 
-    DATABASES = {
-        "default": dj_database_url.parse(
-            os.getenv("DATABASE_URL")
-        )
-    }
-else:
-    DATABASES = {
+def get_database_config():
+    db_url = os.getenv("DATABASE_URL")
+    if db_url:
+        config = dj_database_url.config(default=db_url)
+        options = dict(config.get("OPTIONS") or {})
+        options.setdefault("sslmode", "require")
+        config["OPTIONS"] = options
+        return {"default": config}
+    return {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": os.getenv("DB_NAME"),
@@ -107,6 +111,11 @@ else:
             "PORT": os.getenv("DB_PORT"),
         }
     }
+
+
+DATABASES = get_database_config()
+CONN_MAX_AGE = 60
+CONN_HEALTH_CHECKS = True
 
 
 # Password validation
@@ -144,6 +153,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 
 # Email
@@ -175,7 +194,30 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
     "http://localhost:5175",
     "http://127.0.0.1:5175",
     "https://ai-whatsapp-followup-system.vercel.app",
 ]
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "{levelname} {asctime} {name}: {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+}

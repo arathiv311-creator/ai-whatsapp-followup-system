@@ -334,6 +334,68 @@
 }
 
 /* ================================
+   ACTION BUTTONS
+=============================== */
+
+.customer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.customer-edit-btn,
+.customer-ai-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.customer-edit-btn {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.customer-edit-btn:hover {
+  background: #dbeafe;
+}
+
+.customer-ai-btn {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.customer-ai-btn:hover {
+  background: #ddd6fe;
+}
+
+/* ================================
+   CANCEL EDIT BUTTON
+=============================== */
+
+.customer-cancel-btn {
+  padding: 12px 20px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #4b5563;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.customer-cancel-btn:hover {
+  background: #f3f4f6;
+}
+
+/* ================================
    EMPTY
 ================================ */
 

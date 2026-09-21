@@ -1,0 +1,33 @@
+.messages-composer {
+  margin: 16px 0 0;
+}
+
+.messages-composer .amc-card {
+  margin: 0;
+}
+
+.messages-history {
+  margin-top: 24px;
+}
+
+.messages-history table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.messages-empty {
+  padding: 40px 24px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+@media (max-width: 760px) {
+  .messages-composer {
+    margin-top: 12px;
+  }
+
+  .messages-history {
+    margin-top: 16px;
+  }
+}

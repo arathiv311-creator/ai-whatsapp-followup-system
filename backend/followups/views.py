@@ -35,14 +35,27 @@ class FollowUpListCreateView(generics.ListCreateAPIView):
             customer.phone,
             message
         )
-        Message.objects.create(
-            customer=customer,
-            followup=followup,
-            direction="outgoing",
-            message_text=message,
-            status="sent",
-            external_message_id=result["message_id"]
-        )
+
+        if result["success"]:
+            Message.objects.create(
+                user=self.request.user,
+                customer=customer,
+                followup=followup,
+                direction="outgoing",
+                message_text=message,
+                status="sent",
+                external_message_id=result["message_id"]
+            )
+        else:
+            Message.objects.create(
+                user=self.request.user,
+                customer=customer,
+                followup=followup,
+                direction="outgoing",
+                message_text=message,
+                status="failed",
+                error_message=result["error"]
+            )
 
         return followup
 
